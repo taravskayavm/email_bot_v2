@@ -1,0 +1,5 @@
+.env
+blocked_emails.txt
+blocked_domains.txt
+*.log
+var/
