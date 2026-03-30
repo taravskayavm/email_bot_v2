@@ -31,13 +31,13 @@ async def main() -> None:
     logging.basicConfig(level=logging.INFO)  # Настройка базового логирования.
 
     bot = Bot(token=TOKEN)  # Создание экземпляра бота.
-    dispatcher = Dispatcher()  # Создание диспетчера событий.
+    dp = Dispatcher()  # Создание диспетчера событий (оригинальный стиль имени).
 
-    dispatcher.include_router(router)  # Подключение роутера обработчиков.
+    dp.include_router(router)  # Подключение роутера обработчиков.
 
     await set_commands(bot)  # Регистрация команд в Telegram.
 
-    await dispatcher.start_polling(bot)  # Запуск polling.
+    await dp.start_polling(bot)  # Запуск polling.
 
 
 if __name__ == "__main__":  # Запуск файла как скрипта.
