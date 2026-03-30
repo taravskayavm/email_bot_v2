@@ -75,15 +75,16 @@ def _check_smtp_auth(
     ipv4_only: bool,
 ) -> tuple[bool, str]:
     """Проверяет SMTP-подключение и авторизацию."""
-    try:  # Попытка открыть SMTP SSL-сессию и выполнить логин.
-        target_host, target_port = _resolve_host(  # Разрешение хоста с учетом режима IPv4/IPv6.
-            host, port, ipv4_only
-        )
+    try:
+        _ = ipv4_only  # Сохранение параметра для совместимости сигнатуры и единого интерфейса.
         context = ssl.create_default_context()  # Создание безопасного SSL-контекста по умолчанию.
         with smtplib.SMTP_SSL(  # Установка защищённого SMTP-соединения.
-            host=target_host, port=target_port, timeout=timeout, context=context
+            host=host,
+            port=port,
+            timeout=timeout,
+            context=context
         ) as server:
-            server.login(email, password)  # Проверка SMTP-авторизации указанными учетными данными.
+            server.login(email, password)  # Проверка SMTP-авторизации указанными учётными данными.
         return True, "ok"  # Успешный статус SMTP-авторизации.
     except Exception as exc:  # Перехват ошибок сети, TLS и авторизации.
         return False, f"error ({_short_error(exc)})"  # Возврат краткой причины сбоя.
